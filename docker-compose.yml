@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  database_core:
+    # ESSE É O NOME DO SERVICE QUE DEVE ESTAR NO ARQUIVO DE CRIAÇÃO DE CONEXÃO
+    image: postgres:latest
+    container_name: escolaDB
+    restart: always
+    ports:
+      - 5431:5431
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: dev
+      POSTGRES_DB: escolaDB
+      TZ: America/Sao_Paulo
+    volumes:
+      - pgdata:/data/postgres
+    command: -p 5431
+
+volumes:
+  pgdata:
+    driver: local
