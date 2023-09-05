@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import { IsEmail, IsNotEmpty, IsNumber, IsString, Min } from 'class-validator';
 
 export class CreateAlunoDto {
@@ -15,6 +16,7 @@ export class CreateAlunoDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsEmail()
+  @Transform(({ value }) => value.toLowerCase())
   email: string;
 
   @ApiProperty()

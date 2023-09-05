@@ -7,8 +7,6 @@ import {
   Param,
   Delete,
   NotFoundException,
-  ClassSerializerInterceptor,
-  UseInterceptors,
 } from '@nestjs/common';
 import { CreateAlunoDto } from '../../dto/create-aluno.dto';
 import { UpdateAlunoDto } from '../../dto/update-aluno.dto';
@@ -18,7 +16,6 @@ import { AlunosService } from '../../service/alunos.service';
 export class AlunosController {
   constructor(private readonly alunosService: AlunosService) {}
 
-  @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   async create(@Body() createAlunoDto: CreateAlunoDto) {
     const aluno = await this.alunosService.create(createAlunoDto);

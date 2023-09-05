@@ -11,6 +11,8 @@ import { AlunosModule } from './modules/alunos/alunos.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Aluno } from './modules/alunos/infra/typeorm/entities/aluno.entity';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { UserModule } from './modules/user/user.module';
+import { User } from './modules/user/infra/typeorm/entities/user.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -21,10 +23,11 @@ import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [Aluno],
+      entities: [Aluno, User],
       synchronize: true,
     }),
     AlunosModule,
+    UserModule,
   ],
   controllers: [],
   providers: [
