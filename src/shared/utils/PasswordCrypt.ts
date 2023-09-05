@@ -1,4 +1,4 @@
-import { hash } from 'bcrypt';
+import { hash, compare } from 'bcrypt';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -10,5 +10,14 @@ export class PasswordCrypt {
     );
 
     return hashedPassword;
+  }
+
+  public static async compare(
+    password: string,
+    passwordEncode: string,
+  ): Promise<boolean> {
+    const passwordConfirmed = await compare(password, passwordEncode);
+
+    return passwordConfirmed;
   }
 }

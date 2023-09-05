@@ -7,10 +7,12 @@ import {
   Param,
   Delete,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import { UserService } from '../../service/user.service';
 import { CreateUserDto } from '../../dto/create-user.dto';
 import { UpdateUserDto } from '../../dto/update-user.dto';
+import { isUUID } from 'class-validator';
 
 @Controller('user')
 export class UserController {
@@ -24,22 +26,31 @@ export class UserController {
   }
 
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  async findAll() {
+    return await this.userService.findAll();
   }
 
   @Get(':id')
-  findById(@Param('id') id: string) {
-    return this.userService.findById(id);
+  async findById(@Param('id') id: string) {
+    if (!isUUID(id)) {
+      throw new BadRequestException('Invalid Id');
+    }
+    return await this.userService.findById(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+    if (!isUUID(id)) {
+      throw new BadRequestException('Invalid Id');
+    }
+    return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+    if (!isUUID(id)) {
+      throw new BadRequestException('Invalid Id');
+    }
+    return this.userService.remove(id);
   }
 }

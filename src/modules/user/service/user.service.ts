@@ -9,6 +9,7 @@ export class UserService {
   constructor(private readonly userRepository: IUserRepository) {}
 
   async create(createUserDto: CreateUserDto) {
+    // valida se o email já existe
     const emailValidation = await this.userRepository.findByEmail(
       createUserDto.email,
     );
@@ -19,24 +20,44 @@ export class UserService {
     }
 
     createUserDto.password = await PasswordCrypt.encode(createUserDto.password);
-    console.log(createUserDto);
     return await this.userRepository.create(createUserDto);
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findAll() {
+    return await this.userRepository.findAll();
   }
 
   async findById(id: string) {
     return await this.userRepository.findById(id);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    // valida se o id existe
+    const user = await this.userRepository.findById(id);
+    if (!user) {
+      throw new BadRequestException(`${id} doesnt exists in database`);
+    }
+    // valida se o email já existe
+    const emailValidation = await this.userRepository.findByEmail(
+      updateUserDto.email,
+    );
+
+    if (emailValidation) {
+      throw new BadRequestException(
+        `Email ${emailValidation.email} already exists in database`,
+      );
+    }
+
+    return await this.userRepository.update(id, updateUserDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: string) {
+    // valida se o id existe
+    const user = await this.userRepository.findById(id);
+    if (!user) {
+      throw new BadRequestException(`${id} doesnt exists in database`);
+    }
+
+    return await this.userRepository.remove(id);
   }
 }
