@@ -16,5 +16,6 @@ import { IUserRepository } from './repository/IUser.repository';
       useClass: UserRepository,
     },
   ],
+  exports: [UserService],
 })
 export class UserModule {}

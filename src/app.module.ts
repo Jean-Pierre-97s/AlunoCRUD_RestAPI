@@ -10,9 +10,11 @@ import { ConfigModule } from '@nestjs/config';
 import { AlunosModule } from './modules/alunos/alunos.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Aluno } from './modules/alunos/infra/typeorm/entities/aluno.entity';
-import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { UserModule } from './modules/user/user.module';
 import { User } from './modules/user/infra/typeorm/entities/user.entity';
+import { AuthModule } from './modules/auth/auth.module';
+import { AuthGuard } from './shared/guards/auth.guard';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -28,6 +30,7 @@ import { User } from './modules/user/infra/typeorm/entities/user.entity';
     }),
     AlunosModule,
     UserModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [
@@ -38,6 +41,10 @@ import { User } from './modules/user/infra/typeorm/entities/user.entity';
     {
       provide: APP_PIPE,
       useClass: ValidationPipe,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
     },
   ],
 })
