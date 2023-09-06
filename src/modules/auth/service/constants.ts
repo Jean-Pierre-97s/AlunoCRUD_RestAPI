@@ -1,3 +1,3 @@
 export const jwtConstants = {
-  secret: 'Teste@1234', // TODO alterar chave
+  secret: process.env.TOKEN_SECRET,
 };

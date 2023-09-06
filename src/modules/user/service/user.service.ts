@@ -51,7 +51,7 @@ export class UserService {
         `Email ${emailValidation.email} already exists in database`,
       );
     }
-
+    updateUserDto.password = await PasswordCrypt.encode(updateUserDto.password);
     return await this.userRepository.update(id, updateUserDto);
   }
 
