@@ -13,6 +13,7 @@ import { Aluno } from './modules/alunos/infra/typeorm/entities/aluno.entity';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { UserModule } from './modules/user/user.module';
 import { User } from './modules/user/infra/typeorm/entities/user.entity';
+import { AuthModule } from './modules/auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -28,6 +29,7 @@ import { User } from './modules/user/infra/typeorm/entities/user.entity';
     }),
     AlunosModule,
     UserModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [

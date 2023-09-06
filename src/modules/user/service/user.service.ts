@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { PasswordCrypt } from 'src/shared/utils/PasswordCrypt';
 import { IUserRepository } from '../repository/IUser.repository';
+import { CreateUserDto } from '../dto/create-user.dto';
 
 @Injectable()
 export class UserService {
@@ -29,6 +29,10 @@ export class UserService {
 
   async findById(id: string) {
     return await this.userRepository.findById(id);
+  }
+
+  async findByEmail(email: string) {
+    return await this.userRepository.findByEmail(email);
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
