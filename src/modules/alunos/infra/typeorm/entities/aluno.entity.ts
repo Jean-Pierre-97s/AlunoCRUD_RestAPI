@@ -1,10 +1,12 @@
 import { Exclude } from 'class-transformer';
+import { Status } from 'src/modules/alunos/enum/status.enum';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 
 @Entity('aluno')
@@ -31,6 +33,9 @@ export class Aluno {
   @Column({ type: 'double precision', scale: 3, name: 'altura' })
   altura: number;
 
+  @Column({ name: 'status', default: Status.pendente })
+  status: Status;
+
   @Exclude()
   @CreateDateColumn({ name: 'created_at', type: 'timestamp', nullable: false })
   createdAt: Date;
@@ -38,4 +43,8 @@ export class Aluno {
   @Exclude()
   @UpdateDateColumn({ name: 'updated_at', nullable: true })
   updatedAt: Date;
+
+  @Exclude()
+  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
+  deletedAt: Date;
 }
