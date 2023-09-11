@@ -5,6 +5,7 @@ import {
   IsEnum,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   Min,
 } from 'class-validator';
@@ -45,5 +46,6 @@ export class CreateAlunoDto {
 
   @ApiProperty({ enum: Status, enumName: 'Status' })
   @IsEnum(Status)
+  @IsOptional()
   status: Status;
 }
