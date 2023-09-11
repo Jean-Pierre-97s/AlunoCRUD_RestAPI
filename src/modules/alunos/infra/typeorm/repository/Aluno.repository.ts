@@ -16,8 +16,18 @@ export class AlunoRepository implements IAlunoRepository {
     return output;
   }
 
+  async findAll() {
+    const aluno = await this.alunoRepository.find();
+    return aluno;
+  }
+
   async findById(id: string) {
     const aluno = await this.alunoRepository.findOne({ where: { id } });
+    return aluno;
+  }
+
+  async findByEmail(email: string) {
+    const aluno = await this.alunoRepository.findOne({ where: { email } });
     return aluno;
   }
 }

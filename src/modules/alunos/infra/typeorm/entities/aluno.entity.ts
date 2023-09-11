@@ -19,7 +19,7 @@ export class Aluno {
   @Column({ name: 'sobrenome' })
   sobrenome: string;
 
-  @Column({ name: 'email' })
+  @Column({ name: 'email', unique: true })
   email: string;
 
   @Column({ name: 'idade' })
