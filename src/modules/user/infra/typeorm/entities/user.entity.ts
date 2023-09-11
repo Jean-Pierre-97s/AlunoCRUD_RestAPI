@@ -1,4 +1,5 @@
 import { Exclude } from 'class-transformer';
+import { Role } from 'src/modules/user/enum/role.enum';
 import {
   PrimaryGeneratedColumn,
   Column,
@@ -18,6 +19,9 @@ export class User {
 
   @Column({ name: 'email', unique: true })
   email: string;
+
+  @Column({ name: 'role', default: Role.operator })
+  role: Role;
 
   @Exclude()
   @Column({ name: 'password' })

@@ -24,6 +24,6 @@ export class AuthController {
 
   @Get('profile')
   getProfile(@Req() req) {
-    return { id: req.email.id, email: req.email.email };
+    return { id: req.user.id, user: req.user.email };
   }
 }

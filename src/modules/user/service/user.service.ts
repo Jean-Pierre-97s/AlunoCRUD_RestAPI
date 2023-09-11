@@ -47,9 +47,12 @@ export class UserService {
     );
 
     if (emailValidation) {
-      throw new BadRequestException(
-        `Email ${emailValidation.email} already exists in database`,
-      );
+      // Vê se o email existente é ou não do usuário que vai ser atualizado.
+      if (emailValidation.id != id) {
+        throw new BadRequestException(
+          `Email ${emailValidation.email} already exists in database`,
+        );
+      }
     }
     updateUserDto.password = await PasswordCrypt.encode(updateUserDto.password);
     return await this.userRepository.update(id, updateUserDto);
