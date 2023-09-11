@@ -29,12 +29,29 @@ export class AlunosService {
     return await this.alunoRepository.findById(id);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  update(id: number, updateAlunoDto: UpdateAlunoDto) {
-    return `This action updates a #${id} aluno`;
+  async update(id: string, updateAlunoDto: UpdateAlunoDto) {
+    // valida se o id existe
+    const user = await this.alunoRepository.findById(id);
+    if (!user) {
+      throw new BadRequestException(`${id} doesnt exists in database`);
+    }
+    // valida se o email já existe
+    const emailValidation = await this.alunoRepository.findByEmail(
+      updateAlunoDto.email,
+    );
+
+    if (emailValidation) {
+      // Vê se o email existente é ou não do usuário que vai ser atualizado.
+      if (emailValidation.id != id) {
+        throw new BadRequestException(
+          `Email ${emailValidation.email} already exists in database`,
+        );
+      }
+    }
+    return await this.alunoRepository.update(id, updateAlunoDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} aluno`;
+  async remove(id: string) {
+    return await this.alunoRepository.softRemove(id);
   }
 }
