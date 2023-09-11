@@ -7,7 +7,9 @@ import {
   MinLength,
   MaxLength,
   Matches,
+  IsEnum,
 } from 'class-validator';
+import { Role } from '../enum/role.enum';
 
 export class CreateUserDto {
   @ApiProperty()
@@ -30,4 +32,8 @@ export class CreateUserDto {
     message: 'password too weak',
   })
   password: string;
+
+  @ApiProperty({ enum: Role, enumName: 'Role' })
+  @IsEnum(Role)
+  role: Role;
 }

@@ -1,6 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsEmail, IsNotEmpty, IsNumber, IsString, Min } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  Min,
+} from 'class-validator';
+import { Status } from '../enum/status.enum';
 
 export class CreateAlunoDto {
   @ApiProperty()
@@ -34,4 +42,8 @@ export class CreateAlunoDto {
   @IsNotEmpty()
   @IsNumber()
   altura: number;
+
+  @ApiProperty({ enum: Status, enumName: 'Status' })
+  @IsEnum(Status)
+  status: Status;
 }
