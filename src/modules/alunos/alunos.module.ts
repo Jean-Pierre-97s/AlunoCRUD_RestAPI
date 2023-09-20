@@ -16,5 +16,6 @@ import { IAlunoRepository } from './repository/IAluno.repository';
       useClass: AlunoRepository,
     },
   ],
+  exports: [IAlunoRepository],
 })
 export class AlunosModule {}

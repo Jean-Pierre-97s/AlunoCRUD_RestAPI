@@ -35,11 +35,11 @@ export class AlunosController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAlunoDto: UpdateAlunoDto) {
-    return this.alunosService.update(+id, updateAlunoDto);
+    return this.alunosService.update(id, updateAlunoDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.alunosService.remove(+id);
+    return this.alunosService.remove(id);
   }
 }
