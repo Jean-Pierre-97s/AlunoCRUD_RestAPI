@@ -28,12 +28,6 @@ export class PhotosController {
   }
 
   @Post('upload')
-  @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file: Express.Multer.File) {
-    console.log(file);
-  }
-
-  @Post('file')
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
