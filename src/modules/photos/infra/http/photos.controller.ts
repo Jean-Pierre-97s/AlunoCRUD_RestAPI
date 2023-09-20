@@ -3,25 +3,27 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
-  Delete,
   UploadedFile,
   UseInterceptors,
   ParseFilePipeBuilder,
   HttpStatus,
+  Res,
 } from '@nestjs/common';
 import { PhotosService } from '../../service/photos.service';
 import { CreatePhotoDto } from '../../dto/create-photo.dto';
-import { UpdatePhotoDto } from '../../dto/update-photo.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { extname, join } from 'path';
+import { ApiTags } from '@nestjs/swagger';
+import { createReadStream } from 'fs';
+import { Writable } from 'stream';
 
 @Controller('photo')
 export class PhotosController {
   constructor(private readonly photosService: PhotosService) {}
 
+  @ApiTags('Photos')
   @Post('upload')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -56,27 +58,14 @@ export class PhotosController {
     const photo = await this.photosService.create(createPhotoDto, file);
     return {
       photo: photo,
-      file: file,
+      url: `${process.env.BASE_URL}photo/file/${file.filename}`,
     };
   }
 
-  @Get()
-  findAll() {
-    return this.photosService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.photosService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePhotoDto: UpdatePhotoDto) {
-    return this.photosService.update(+id, updatePhotoDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.photosService.remove(+id);
+  @ApiTags('Photos')
+  @Get('file/:file')
+  file(@Param('file') file: string, @Res() res: Writable) {
+    const fileStream = createReadStream(join(process.cwd(), 'uploads', file));
+    fileStream.pipe(res);
   }
 }
