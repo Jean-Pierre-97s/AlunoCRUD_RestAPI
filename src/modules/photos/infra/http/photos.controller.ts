@@ -22,11 +22,6 @@ import { extname } from 'path';
 export class PhotosController {
   constructor(private readonly photosService: PhotosService) {}
 
-  @Post()
-  create(@Body() createPhotoDto: CreatePhotoDto) {
-    return this.photosService.create(createPhotoDto);
-  }
-
   @Post('upload')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -42,8 +37,8 @@ export class PhotosController {
       }),
     }),
   )
-  uploadFileAndPassValidation(
-    @Body() body: CreatePhotoDto,
+  async uploadFileAndPassValidation(
+    @Body() createPhotoDto: CreatePhotoDto,
     @UploadedFile(
       new ParseFilePipeBuilder()
         .addFileTypeValidator({
@@ -58,8 +53,9 @@ export class PhotosController {
     )
     file: Express.Multer.File,
   ) {
+    const photo = await this.photosService.create(createPhotoDto, file);
     return {
-      body,
+      photo: photo,
       file: file,
     };
   }

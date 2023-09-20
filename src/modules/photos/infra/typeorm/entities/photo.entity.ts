@@ -16,16 +16,17 @@ export class Photo {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'nome' })
-  nome: string;
+  @Column({ name: 'originalName' })
+  originalName: string;
 
-  @Column({ name: 'tipo' })
-  tipo: string;
+  @Column({ name: 'filename', nullable: false })
+  filename: string;
 
-  @Column({ name: 'file_path' })
-  file_path: string;
-
-  @ManyToOne(() => Aluno, (aluno) => aluno.id, { eager: true })
+  @ManyToOne(() => Aluno, (aluno) => aluno.id, {
+    eager: true,
+    cascade: true,
+    nullable: false,
+  })
   @JoinColumn({ name: 'aluno_id' })
   aluno: Aluno;
 
