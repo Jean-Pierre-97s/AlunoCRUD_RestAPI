@@ -15,9 +15,8 @@ export class PhotoRepository implements IPhotoRepository {
     const photoEntity = this.photoRepository.create({
       filename: photo.filename,
       originalName: photo.originalName,
-      aluno: { id: photo.alunoId },
+      alunoId: photo.alunoId,
     });
-    console.log(photoEntity);
     const output = await this.photoRepository.save(photoEntity);
     return output;
   }

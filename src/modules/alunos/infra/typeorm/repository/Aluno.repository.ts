@@ -24,6 +24,7 @@ export class AlunoRepository implements IAlunoRepository {
 
   async findById(id: string) {
     const aluno = await this.alunoRepository.findOne({ where: { id } });
+    console.log(aluno);
     return aluno;
   }
 

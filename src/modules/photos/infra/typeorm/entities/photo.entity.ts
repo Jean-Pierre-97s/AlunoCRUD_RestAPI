@@ -22,13 +22,10 @@ export class Photo {
   @Column({ name: 'filename', nullable: false })
   filename: string;
 
-  @ManyToOne(() => Aluno, (aluno) => aluno.id, {
-    eager: true,
-    cascade: true,
-    nullable: false,
-  })
+  @ManyToOne(() => Aluno, (aluno) => aluno.id, {})
   @JoinColumn({ name: 'aluno_id' })
-  aluno: Aluno;
+  @Column({ name: 'aluno_id', nullable: true })
+  alunoId: string;
 
   @Exclude()
   @CreateDateColumn({ name: 'created_at', type: 'timestamp', nullable: false })

@@ -1,5 +1,6 @@
 import { Exclude } from 'class-transformer';
 import { Status } from 'src/modules/alunos/enum/status.enum';
+import { Photo } from 'src/modules/photos/infra/typeorm/entities/photo.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -7,6 +8,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity('aluno')
@@ -47,4 +49,11 @@ export class Aluno {
   @Exclude()
   @DeleteDateColumn({ name: 'deleted_at', nullable: true })
   deletedAt: Date;
+
+  @OneToMany(() => Photo, (photo) => photo.alunoId, {
+    cascade: true,
+    onUpdate: 'CASCADE',
+    eager: true,
+  }) // Relação um para muitos com a entidade Photo
+  photos: Photo[];
 }
